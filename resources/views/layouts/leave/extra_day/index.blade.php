@@ -1,0 +1,112 @@
+@extends('layouts.leave.extra_day.extra_day')
+@section('create')
+    <div class="modal fade" id="add" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">@lang('url.extra-day')</h5>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{route('extra-day.store')}}" id="kt_add_form" class="kt-form">
+                        @csrf
+                        <div class="kt-portlet__body">
+                            <div class="row">
+                                <div class="form-group col-xl-4">
+                                    <label>Employee Name<span class="required" aria-required="true"> *</span></label>
+                                    {!! Form::select('user_id', $users,null,['class' => 'form-control kt_select2_modal','id'=>'add-user-id']) !!}
+                                    <span class="form-text text-muted"></span>
+                                </div>
+                                <div class="form-group col-xl-4">
+                                    <label>@lang('common.date')<span class="required" aria-required="true"> *</span></label>
+                                    <input type="text" class="form-control kt_datepicker_1_validate" required readonly id="add-date" name="date" placeholder="@lang('common.date')">
+                                </div>
+                                <div class="form-group col-xl-4">
+                                    <label>Year<span class="required" aria-required="true"> *</span></label>
+                                    <input type="text" class="form-control " id="add-year" readonly required placeholder="Year">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group  col-lg-4">
+                                    <label class="form-control-label">@lang('common.start') @lang('common.time')<span class="required"> *</span></label>
+                                    <input class="form-control kt_timepicker_1" onchange="num_of_hour('add')" name="start_time" id="add-start-time" required readonly placeholder="@lang('common.start') @lang('common.time')" type="text">
+                                </div>
+                                <div class="form-group  col-lg-4 ">
+                                    <label class="form-control-label">@lang('common.end') @lang('common.time')<span class="required"> *</span></label>
+                                    <input class="form-control " name="end_time" onchange="num_of_hour('add')"  id="add-end-time"  required readonly placeholder="@lang('common.end') @lang('common.time')" type="text">
+                                </div>
+                                <div class="form-group col-xl-4">
+                                    <label>Number Of Hours<span class="required" aria-required="true"> *</span></label>
+                                    <input type="text" class="form-control " id="add-hours" required readonly placeholder="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="kt-portlet__foot">
+                            <div class="kt-form__actions">
+                                <div class="btn btn-success btn-md btn-tall btn-wide kt-font-bold kt-font-transform-u" data-ktwizard-type="action-submit">
+                                    @lang('common.submit')
+                                </div>
+                                <div class="btn btn-danger  btn-md btn-tall btn-wide kt-font-bold kt-font-transform-u" data-dismiss="modal">@lang('common.cancel')</div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@stop
+
+@section('edit')
+    <div class="modal fade" id="edit" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">@lang('common.edit') @lang('url.extra-day')</h5>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{route('extra-day.update',0)}}" id="kt_edit_form" class="kt-form">
+                        @method('PUT')
+                        @csrf
+                        <input type="hidden" id="edit-id" value="" name="id">
+                        <div class="kt-portlet__body">
+                            <div class="row">
+                                <div class="form-group col-xl-4">
+                                    <label>Employee Name<span class="required" aria-required="true"> *</span></label>
+                                    {!! Form::select('user_id', $users,null,['class' => 'form-control kt_select2_modal','id'=>'edit-user-id']) !!}
+                                    <span class="form-text text-muted"></span>
+                                </div>
+                                <div class="form-group col-xl-4">
+                                    <label>@lang('common.date')<span class="required" aria-required="true"> *</span></label>
+                                    <input type="text" class="form-control kt_datepicker_1_validate" id="edit-date" required readonly name="date" placeholder="@lang('common.date')">
+                                </div>
+                                <div class="form-group col-xl-4">
+                                    <label>Year<span class="required" aria-required="true"> *</span></label>
+                                    <input type="text" class="form-control " id="edit-year" readonly placeholder="Year">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group  col-lg-4">
+                                    <label class="form-control-label">@lang('common.start') @lang('common.time')<span class="required"> *</span></label>
+                                    <input class="form-control kt_timepicker_1" name="start_time" id="edit-start-time" required readonly placeholder="@lang('common.start') @lang('common.time')" type="text">
+                                </div>
+                                <div class="form-group  col-lg-4 ">
+                                    <label class="form-control-label">@lang('common.end') @lang('common.time')<span class="required"> *</span></label>
+                                    <input class="form-control kt_timepicker_1" name="end_time" id="edit-end-time" required readonly placeholder="@lang('common.end') @lang('common.time')" type="text">
+                                </div>
+                                <div class="form-group col-xl-4">
+                                    <label>Number Of Hours<span class="required" aria-required="true"> *</span></label>
+                                    <input type="text" class="form-control " id="edit-hours" readonly placeholder="hours">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="kt-portlet__foot">
+                            <div class="kt-form__actions">
+                                <button class="btn btn-success btn-md btn-tall btn-wide kt-font-bold kt-font-transform-u" data-ktwizard-type="action-submit">@lang('common.submit')</button>
+                                <button class="btn btn-danger  btn-md btn-tall btn-wide kt-font-bold kt-font-transform-u" data-dismiss="modal">@lang('common.cancel')</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@stop
